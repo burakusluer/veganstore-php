@@ -76,6 +76,34 @@ class vegan {
 			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST  => 'GET',
 			CURLOPT_HTTPHEADER     => array(
+			"Content-Type: application/json",
+			"cache-control: no-cache",
+			'Cookie: OCSESSID=' . $this->_OCSESSID,
+			$this->API_KEYNAME . ': ' . $this->API_KEYVAL
+		),
+		) );
+		$response = curl_exec( $curl );
+		curl_close( $curl );
+
+		return json_decode( $response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+	}
+
+	/**
+	 * @return mixed
+	 * siparişlerinizi çekmek için kullanabilirsiniz
+	 */
+	public function orders() {
+		$filters=array("limit"=>0);
+		$curl = curl_init();
+		curl_setopt_array( $curl, array(
+			CURLOPT_URL            => 'https://veganistasyon.com/alisveris/magaza/api/sellerorder',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_COOKIESESSION  => true,
+			CURLOPT_TIMEOUT        => 30,
+			CURLOPT_FOLLOWLOCATION => false,
+			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST  => 'GET',
+			CURLOPT_HTTPHEADER     => array(
 				"Content-Type: application/json",
 				"cache-control: no-cache",
 				'Cookie: OCSESSID=' . $this->_OCSESSID,
@@ -91,13 +119,42 @@ class vegan {
 
 	/**
 	 * @return mixed
-	 * siparişlerinizi çekmek için kullanabilirsiniz
+	 * Aldığınız ödemeleri çekmek için kullanabilirsiniz
 	 */
-	public function orders() {
+	public function payments() {
 
 		$curl = curl_init();
 		curl_setopt_array( $curl, array(
-			CURLOPT_URL            => 'https://veganistasyon.com/alisveris/magaza/api/sellerorder',
+			CURLOPT_URL            => 'https://veganistasyon.com/alisveris/magaza/api/sellerpayment',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_COOKIESESSION  => true,
+			CURLOPT_TIMEOUT        => 30,
+			CURLOPT_FOLLOWLOCATION => false,
+			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST  => 'GET',
+			CURLOPT_HTTPHEADER     => array(
+				"Content-Type: application/json",
+				"cache-control: no-cache",
+				'Cookie: OCSESSID=' . $this->_OCSESSID,
+				$this->API_KEYNAME . ': ' . $this->API_KEYVAL
+			),
+		) );
+
+		$response = curl_exec( $curl );
+		curl_close( $curl );
+
+		return json_decode( $response, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+	}
+
+	/**
+	 * @return mixed
+	 * Aldığınız ödemelri çekmek için kullanabilirsiniz
+	 */
+	public function downloads() {
+
+		$curl = curl_init();
+		curl_setopt_array( $curl, array(
+			CURLOPT_URL            => 'https://veganistasyon.com/alisveris/magaza/api/downloads',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_COOKIESESSION  => true,
 			CURLOPT_TIMEOUT        => 30,
